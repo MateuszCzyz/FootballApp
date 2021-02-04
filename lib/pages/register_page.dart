@@ -41,6 +41,9 @@ class RegisterPage extends StatelessWidget {
               width: 300,
               child: TextField(
                 decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: HexColor('DDDDDD'), width: 1)),
                     labelStyle: GoogleFonts.nunito(),
                     labelText: 'Email',
                     contentPadding: EdgeInsets.all(10),
@@ -57,6 +60,9 @@ class RegisterPage extends StatelessWidget {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: HexColor('DDDDDD'), width: 1)),
                     labelStyle: GoogleFonts.nunito(),
                     labelText: 'Password',
                     contentPadding: EdgeInsets.all(10),
@@ -73,6 +79,9 @@ class RegisterPage extends StatelessWidget {
               child: TextField(
                 obscureText: true,
                 decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: HexColor('DDDDDD'), width: 1)),
                     labelStyle: GoogleFonts.nunito(),
                     labelText: 'Repeat password',
                     contentPadding: EdgeInsets.all(10),

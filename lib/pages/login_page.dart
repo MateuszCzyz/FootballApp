@@ -45,13 +45,15 @@ class LoginPage extends StatelessWidget {
                 width: 300,
                 child: TextField(
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: HexColor('DDDDDD'), width: 1)),
                       labelStyle: GoogleFonts.nunito(),
                       labelText: 'Email',
                       contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          borderSide: BorderSide(
-                              width: 0.5, color: HexColor('FBFBFB')))),
+                        borderRadius: BorderRadius.circular(3),
+                      )),
                 ),
               ),
               SizedBox(height: 20),
@@ -61,6 +63,9 @@ class LoginPage extends StatelessWidget {
                 child: TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: HexColor('DDDDDD'), width: 1)),
                       labelStyle: GoogleFonts.nunito(),
                       labelText: 'Password',
                       contentPadding: EdgeInsets.all(10),
@@ -115,7 +120,9 @@ class LoginPage extends StatelessWidget {
                         SizedBox(width: 15),
                         Text(
                           'Sign in with google',
-                          style: GoogleFonts.nunito(color: Colors.black54),
+                          style: GoogleFonts.nunito(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w500),
                         ),
                       ],
                     )),

@@ -1,14 +1,13 @@
 import 'package:FootballApp/pages/article_page.dart';
 import 'package:FootballApp/pages/login_page.dart';
+import 'package:FootballApp/pages/videos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 List<Widget> pages = [
   ArticlePage(),
-  Container(
-    color: Colors.blue,
-  ),
+  VideosPage(),
   Container(
     color: Colors.green,
   ),
@@ -57,6 +56,7 @@ class HomePage extends StatelessWidget {
             children: pages,
           ),
           bottomNavigationBar: TabBar(
+            labelColor: Colors.red,
             indicatorColor: HexColor('6798B4'),
             tabs: [
               Tab(
