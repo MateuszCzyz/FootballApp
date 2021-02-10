@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:FootballApp/respositiories/auth_repository.dart';
+import 'package:FootballApp/repositories/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
