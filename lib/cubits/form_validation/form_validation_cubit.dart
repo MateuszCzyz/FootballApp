@@ -1,3 +1,4 @@
+import 'package:FootballApp/models/second_password_validator.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:FootballApp/models/email_validator.dart';
@@ -10,37 +11,43 @@ part 'form_validation_state.dart';
 class FormValidationCubit extends Cubit<FormValidationState> {
   String emailValue;
   String passwordValue;
+  String secondPasswordValue;
 
-  FormValidationCubit({email = '', password = ''})
+  FormValidationCubit({email = '', password = '', secondPassword = ''})
       : super(FormValidationState());
 
   void emailChanged(String value) {
     Email email = Email.dirty(value);
     emailValue = email.value;
-    emit(FormValidationState(
-        emailValidate: email.error, passwordValidate: null));
+    emit(FormValidationState(emailValidate: email.error));
   }
 
-  void emailUnFocus() {
-    emit(FormValidationState(emailValidate: null, passwordValidate: null));
+  void passwordChanged(String value) {
+    Password password = Password.dirty(value);
+    passwordValue = password.value;
+    emit(FormValidationState(passwordValidate: password.error));
+  }
+
+  void secondPasswordChanged(String value) {
+    SecondPassword secondPassword = SecondPassword.dirty(value)
+      ..setFirstPassword = Password.dirty(passwordValue);
+    secondPasswordValue = secondPassword.value;
+    emit(FormValidationState(secondPasswordValidate: secondPassword.error));
+  }
+
+  void passwordFocus() {
+    passwordChanged(passwordValue);
   }
 
   void emailFocus() {
     emailChanged(emailValue);
   }
 
-  void passwordChanged(String value) {
-    Password password = Password.dirty(value);
-    passwordValue = password.value;
-    emit(FormValidationState(
-        emailValidate: null, passwordValidate: password.error));
+  void secondPasswordFocus() {
+    secondPasswordChanged(secondPasswordValue);
   }
 
-  void passwordUnFocus() {
-    emit(FormValidationState(emailValidate: null, passwordValidate: null));
-  }
-
-  void passwordFocus() {
-    passwordChanged(passwordValue);
+  void unFocusForm() {
+    emit(FormValidationState());
   }
 }

@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:FootballApp/models/email_validator.dart';
+import 'package:FootballApp/widgets/forms_fields/email_field.dart';
+import 'package:FootballApp/widgets/forms_fields/password_field.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -133,125 +134,6 @@ class _LoginPageState extends State<LoginPage> {
           )),
         ),
       ),
-    );
-  }
-}
-
-class EmailInput extends StatefulWidget {
-  @override
-  _EmailInputState createState() => _EmailInputState();
-}
-
-class _EmailInputState extends State<EmailInput> {
-  FocusNode _focusNode;
-  FormValidationCubit _formValidationCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _formValidationCubit = BlocProvider.of<FormValidationCubit>(context);
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        _formValidationCubit.emailUnFocus();
-      } else {
-        _formValidationCubit.emailFocus();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _focusNode.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FormValidationCubit, FormValidationState>(
-      cubit: BlocProvider.of<FormValidationCubit>(context),
-      builder: (context, state) {
-        return Container(
-          width: 300,
-          child: TextFormField(
-            focusNode: _focusNode,
-            decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: HexColor('DDDDDD'), width: 1)),
-                labelStyle: GoogleFonts.nunito(),
-                labelText: 'Email',
-                errorText: state.getEmailError,
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(3),
-                )),
-            onChanged: (value) {
-              _formValidationCubit..emailChanged(value);
-            },
-          ),
-        );
-      },
-    );
-  }
-}
-
-class PasswordInput extends StatefulWidget {
-  @override
-  _PasswordInputState createState() => _PasswordInputState();
-}
-
-class _PasswordInputState extends State<PasswordInput> {
-  FocusNode _focusNode;
-  FormValidationCubit _formValidationCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _formValidationCubit = BlocProvider.of<FormValidationCubit>(context);
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        _formValidationCubit.passwordUnFocus();
-      } else {
-        _formValidationCubit.passwordFocus();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _focusNode.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FormValidationCubit, FormValidationState>(
-      builder: (context, state) {
-        return Container(
-          width: 300,
-          child: TextFormField(
-            focusNode: _focusNode,
-            obscureText: true,
-            decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: HexColor('DDDDDD'), width: 1)),
-                labelStyle: GoogleFonts.nunito(),
-                labelText: 'Password',
-                errorText: state.getPasswordError,
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(3),
-                    borderSide:
-                        BorderSide(width: 0.5, color: HexColor('FBFBFB')))),
-            onChanged: (value) {
-              _formValidationCubit.passwordChanged(value);
-            },
-          ),
-        );
-      },
     );
   }
 }
