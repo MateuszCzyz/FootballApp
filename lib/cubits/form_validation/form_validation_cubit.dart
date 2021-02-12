@@ -3,9 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:FootballApp/models/email_validator.dart';
 import 'package:FootballApp/models/password_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:formz/formz.dart';
-
 part 'form_validation_state.dart';
 
 class FormValidationCubit extends Cubit<FormValidationState> {

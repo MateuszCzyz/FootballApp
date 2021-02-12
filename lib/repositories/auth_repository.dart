@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
-  AuthenticationRepository({FirebaseAuth firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthenticationRepository(
+      {FirebaseAuth firebaseAuth, FirebaseFirestore firestore})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+        _firestore = firestore ?? FirebaseFirestore.instance;
 
   Future<void> signInWithEmailAndPassword(
       {String email, String password}) async {

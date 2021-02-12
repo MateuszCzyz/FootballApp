@@ -1,14 +1,13 @@
 import 'package:formz/formz.dart';
 import '../models/password_validator.dart';
 
-enum SecondPasswordValidatorStatus {
+enum SecondPasswordValidatorError {
   isTooShort,
   isDifferent,
   firstPassIsInvalid,
-  isValid
 }
 
-class SecondPassword extends FormzInput<String, SecondPasswordValidatorStatus> {
+class SecondPassword extends FormzInput<String, SecondPasswordValidatorError> {
   const SecondPassword.pure([String value = '']) : super.pure(value);
   const SecondPassword.dirty([String value = '']) : super.dirty(value);
   static Password _firstPassword;
@@ -18,24 +17,23 @@ class SecondPassword extends FormzInput<String, SecondPasswordValidatorStatus> {
   }
 
   @override
-  SecondPasswordValidatorStatus validator(String value) {
+  SecondPasswordValidatorError validator(String value) {
     if (value.length > 0) {
-      if (_firstPassword.error == PasswordValidatorStatus.isValid) {
+      if (_firstPassword.valid) {
         if (value.length > 6) {
           if (value == _firstPassword.value) {
-            return SecondPasswordValidatorStatus.isValid;
+            return null;
           } else {
-            return SecondPasswordValidatorStatus.isDifferent;
+            return SecondPasswordValidatorError.isDifferent;
           }
         } else {
-          return SecondPasswordValidatorStatus.isTooShort;
+          return SecondPasswordValidatorError.isTooShort;
         }
       } else {
-        return SecondPasswordValidatorStatus.firstPassIsInvalid;
+        return SecondPasswordValidatorError.firstPassIsInvalid;
       }
     } else {
-      return SecondPasswordValidatorStatus
-          .isValid; // is valid because empty field does not show any errors
+      return null;
     }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:formz/formz.dart';
 
-enum EmailValidatorStatus { isNotEmail, isTooShort, isValid }
+enum EmailValidatorError { isNotEmail, isTooShort, isUsed }
 
-class Email extends FormzInput<String, EmailValidatorStatus> {
+class Email extends FormzInput<String, EmailValidatorError> {
   const Email.pure([String value = '']) : super.pure(value);
   const Email.dirty([String value = '']) : super.dirty(value);
 
@@ -10,19 +10,19 @@ class Email extends FormzInput<String, EmailValidatorStatus> {
       r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
 
   @override
-  EmailValidatorStatus validator(String value) {
+  EmailValidatorError validator(String value) {
     if (value.isNotEmpty) {
       if (value.length > 6) {
         if (_emailRegExp.hasMatch(value)) {
-          return EmailValidatorStatus.isValid;
+          return null;
         } else {
-          return EmailValidatorStatus.isNotEmail;
+          return EmailValidatorError.isNotEmail;
         }
       } else {
-        return EmailValidatorStatus.isTooShort;
+        return EmailValidatorError.isTooShort;
       }
     } else {
-      return EmailValidatorStatus.isValid;
+      return null;
     }
   }
 }
