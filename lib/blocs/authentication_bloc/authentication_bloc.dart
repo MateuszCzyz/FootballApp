@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:FootballApp/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -22,7 +23,8 @@ class AuthenticationBloc
     if (event is CheckAuthenticationStatus) {
       yield* mapCheckAuthStatusToState();
     } else if (event is LoggedInAuthentication) {
-      yield SuccesAuthentication();
+      yield SuccesAuthentication(
+          user: _authenticationRepository.getCurrentUser());
     } else if (event is LogoutAuthentication) {
       yield* mapSignOutToState();
     }
@@ -30,7 +32,8 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> mapCheckAuthStatusToState() async* {
     if (_authenticationRepository.isSignedIn()) {
-      yield SuccesAuthentication();
+      yield SuccesAuthentication(
+          user: _authenticationRepository.getCurrentUser());
     } else {
       yield FailureAuthentication();
     }

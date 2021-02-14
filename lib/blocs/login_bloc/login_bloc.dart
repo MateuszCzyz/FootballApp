@@ -34,15 +34,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapSignInWithEmailAndPasswordToState(
       {String email, String password}) async* {
     try {
-      if (password.length > 6) {
-        await _authenticationRepository.signInWithEmailAndPassword(
-            email: email, password: password);
-        yield LoginSuccess();
-        _authenticationBloc.add(LoggedInAuthentication());
-      } else {
-        yield LoginFailure(errorMessage: 'invalid-password');
-      }
+      await _authenticationRepository.signInWithEmailAndPassword(
+          email: email, password: password);
+      yield LoginSuccess();
+      _authenticationBloc.add(LoggedInAuthentication());
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       yield LoginFailure(errorMessage: e.code);
     }
   }

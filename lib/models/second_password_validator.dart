@@ -5,6 +5,7 @@ enum SecondPasswordValidatorError {
   isTooShort,
   isDifferent,
   firstPassIsInvalid,
+  isEmpty
 }
 
 class SecondPassword extends FormzInput<String, SecondPasswordValidatorError> {
@@ -18,7 +19,7 @@ class SecondPassword extends FormzInput<String, SecondPasswordValidatorError> {
 
   @override
   SecondPasswordValidatorError validator(String value) {
-    if (value.length > 0) {
+    if (value.isNotEmpty) {
       if (_firstPassword.valid) {
         if (value.length > 6) {
           if (value == _firstPassword.value) {
@@ -33,7 +34,7 @@ class SecondPassword extends FormzInput<String, SecondPasswordValidatorError> {
         return SecondPasswordValidatorError.firstPassIsInvalid;
       }
     } else {
-      return null;
+      return SecondPasswordValidatorError.isEmpty;
     }
   }
 }

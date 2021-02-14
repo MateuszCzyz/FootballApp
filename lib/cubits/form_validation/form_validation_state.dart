@@ -19,6 +19,9 @@ class FormValidationState extends Equatable {
       case EmailValidatorError.isUsed:
         return 'Entered email is already used';
         break;
+      case EmailValidatorError.isEmpty:
+        return null;
+        break;
     }
   }
 
@@ -26,6 +29,9 @@ class FormValidationState extends Equatable {
     switch (passwordValidate) {
       case PasswordValidatorError.isTooShort:
         return 'Entered value must have 6 chars';
+        break;
+      case PasswordValidatorError.isEmpty:
+        return null;
         break;
     }
   }
@@ -40,6 +46,9 @@ class FormValidationState extends Equatable {
         break;
       case SecondPasswordValidatorError.isDifferent:
         return 'The enterer password is not equal with previous password';
+        break;
+      case SecondPasswordValidatorError.isEmpty:
+        return null;
         break;
     }
   }

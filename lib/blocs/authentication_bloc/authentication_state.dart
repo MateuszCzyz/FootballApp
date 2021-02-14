@@ -9,6 +9,9 @@ abstract class AuthenticationState extends Equatable {
 
 class AuthenticationStarted extends AuthenticationState {}
 
-class SuccesAuthentication extends AuthenticationState {}
+class SuccesAuthentication extends AuthenticationState {
+  final User user;
+  SuccesAuthentication({this.user});
+}
 
 class FailureAuthentication extends AuthenticationState {}

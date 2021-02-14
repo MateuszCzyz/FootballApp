@@ -24,11 +24,15 @@ class AuthenticationRepository {
         email: email, password: password);
   }
 
-  Future<void> signOut() async {
-    return Future.wait([_firebaseAuth.signOut()]);
+  User getCurrentUser() {
+    return _firebaseAuth.currentUser;
   }
 
   bool isSignedIn() {
     return _firebaseAuth.currentUser != null;
+  }
+
+  Future<void> signOut() async {
+    return Future.wait([_firebaseAuth.signOut()]);
   }
 }

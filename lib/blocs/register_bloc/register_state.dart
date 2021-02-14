@@ -9,6 +9,8 @@ abstract class RegisterState extends Equatable {
 
 class RegisterStarted extends RegisterState {}
 
+class RegisterLoading extends RegisterState {}
+
 class SuccessRegistration extends RegisterState {}
 
 class FailureRegistration extends RegisterState {

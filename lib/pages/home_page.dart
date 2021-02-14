@@ -31,18 +31,10 @@ class HomePage extends StatelessWidget {
           drawer: Drawer(
               child: Column(
             children: [
-              DrawerHeader(
-                  child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) {
-                  if (state is SuccesAuthentication) {
-                    return Text('Jest zalogowany');
-                  } else if (state is FailureAuthentication) {
-                    return Text('Nie jest zalogowany');
-                  } else {
-                    return Text('Ładowanie');
-                  }
-                },
-              )),
+              UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Colors.grey[400]),
+                  accountName: Text('fsdfds'),
+                  accountEmail: Text('fsdfsd')),
               Expanded(
                   child: Align(
                 alignment: Alignment.bottomCenter,

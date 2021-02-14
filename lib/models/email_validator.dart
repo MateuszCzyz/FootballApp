@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum EmailValidatorError { isNotEmail, isTooShort, isUsed }
+enum EmailValidatorError { isNotEmail, isTooShort, isUsed, isEmpty }
 
 class Email extends FormzInput<String, EmailValidatorError> {
   const Email.pure([String value = '']) : super.pure(value);
@@ -22,7 +22,7 @@ class Email extends FormzInput<String, EmailValidatorError> {
         return EmailValidatorError.isTooShort;
       }
     } else {
-      return null;
+      return EmailValidatorError.isEmpty;
     }
   }
 }
