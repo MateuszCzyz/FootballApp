@@ -14,6 +14,7 @@ class _BookmarkIconState extends State<BookmarkIcon>
   AnimationController _animationController;
   Animation<double> _animation;
   IconData _currentIconData = Icons.bookmark_outline;
+  bool _absorbIcon = false;
 
   @override
   void initState() {
@@ -23,6 +24,9 @@ class _BookmarkIconState extends State<BookmarkIcon>
           ..addListener(() {
             if (_animationController.isCompleted) {
               _animationController.reverse();
+              setState(() {
+                _absorbIcon = false;
+              });
             }
           });
     _animation =
@@ -37,27 +41,34 @@ class _BookmarkIconState extends State<BookmarkIcon>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, _) {
-          return Transform.scale(
-            scale: _animation.value,
-            child: InkWell(
-              child: Icon(
-                _currentIconData,
-                color: widget.iconColor,
-                size: 23,
+    return AbsorbPointer(
+      absorbing: _absorbIcon,
+      child: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, _) {
+            return Transform.scale(
+              scale: _animation.value,
+              child: InkWell(
+                child: Icon(
+                  _currentIconData,
+                  color: widget.iconColor,
+                  size: 23,
+                ),
+                onTap: () async {
+                  if (_currentIconData == Icons.bookmark) {
+                    _currentIconData = Icons.bookmark_outline;
+                  } else {
+                    _currentIconData = Icons.bookmark;
+                  }
+                  _animationController.forward();
+
+                  setState(() {
+                    _absorbIcon = true;
+                  });
+                },
               ),
-              onTap: () {
-                if (_currentIconData == Icons.bookmark) {
-                  _currentIconData = Icons.bookmark_outline;
-                } else {
-                  _currentIconData = Icons.bookmark;
-                }
-                _animationController.forward();
-              },
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class ShareIcon extends StatefulWidget {
+  final String shareTitle;
+  final String shareURL;
+
+  ShareIcon({this.shareURL, this.shareTitle});
   @override
   _ShareIconState createState() => _ShareIconState();
 }
@@ -9,6 +14,7 @@ class _ShareIconState extends State<ShareIcon>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
+  bool _absorbIcon = false;
 
   @override
   void initState() {
@@ -18,6 +24,9 @@ class _ShareIconState extends State<ShareIcon>
           ..addListener(() {
             if (_animationController.isCompleted) {
               _animationController.reverse();
+              setState(() {
+                _absorbIcon = false;
+              });
             }
           });
     _animation =
@@ -32,22 +41,30 @@ class _ShareIconState extends State<ShareIcon>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, _) {
-          return Transform.scale(
-            scale: _animation.value,
-            child: InkWell(
-              child: Icon(
-                Icons.share,
-                color: Colors.white,
-                size: 20,
+    return AbsorbPointer(
+      absorbing: _absorbIcon,
+      child: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, _) {
+            return Transform.scale(
+              scale: _animation.value,
+              child: InkWell(
+                child: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                onTap: () async {
+                  _animationController.forward();
+                  await Share.share(widget.shareURL,
+                      subject: widget.shareTitle);
+                  setState(() {
+                    _absorbIcon = true;
+                  });
+                },
               ),
-              onTap: () {
-                _animationController.forward();
-              },
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 }
