@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:FootballApp/cubits/form_validation/form_validation_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:FootballApp/repositories/auth_repository.dart';
+import 'package:FootballApp/resources/repositories/auth_repository.dart';
 
 class EmailInput extends StatefulWidget {
   @override

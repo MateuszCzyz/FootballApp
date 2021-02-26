@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">918289779421-qn80ld503eeanh0v4ggflucmaj3g65mk.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">918289779421</string>
+    <string name="google_api_key" translatable="false">AIzaSyAaYEul4QJX47pmwcypaAGgYhK00x1x7Mg</string>
+    <string name="google_app_id" translatable="false">1:918289779421:android:482773ba50c7c56f38a934</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAaYEul4QJX47pmwcypaAGgYhK00x1x7Mg</string>
+    <string name="google_storage_bucket" translatable="false">footballapp-2fb40.appspot.com</string>
+    <string name="project_id" translatable="false">footballapp-2fb40</string>
+</resources>

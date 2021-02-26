@@ -1,264 +1,158 @@
-import 'package:FootballApp/pages/login_page.dart';
+import 'dart:async';
+import 'package:FootballApp/blocs/articles_bloc/article_bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
+import '../widgets/articles_widgets/large_slider_article.dart';
+import '../widgets/articles_widgets/small_single_article.dart';
+import 'package:FootballApp/models/article.dart';
 
-class ArticlePage extends StatelessWidget {
+class ArticlePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          SizedBox(height: 15),
-          Text('Most popular articules',
-              style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.bold, fontSize: 20)),
-          SizedBox(height: 15),
-          LargeArticle(
-            period: 'Today',
-            description:
-                'Man Utds Ighalo condemns Nigeria killings as Anthony Joshua joins fight for change',
-            date: '21 October 2020, 02:45',
-            imagePath:
-                'https://news.livescore.com/newsapi/04/soccer/image/ighalo-man-utd-nigeria-anthony-joshua-boxing-7-1kwym9jvsu134192dr9y72f4cs.jpg',
-          ),
-          SizedBox(height: 15),
-          LittleArticle(
-            titleColor: HexColor('EE9F73'),
-            comments: 12,
-            author: 'Mateusz Czyzewski',
-            date: '21 October',
-            title: 'Premier League',
-            description:
-                'Man Utds Ighalo condemns Nigeria killings as Anthony Joshua joins fight for change',
-            imagePath:
-                'https://news.livescore.com/newsapi/04/soccer/image/frank-lampard-very-happy-timo-werner-despite-back-to-back-chelsea-stalemates-7-14jv0ntwy61nk1uxehspwpjm48.jpg',
-          ),
-          SizedBox(height: 15),
-          LittleArticle(
-            titleColor: HexColor('779DFF'),
-            comments: 12,
-            author: 'Yuval Harrari',
-            date: '21 October',
-            title: 'Premier League',
-            description:
-                'Man Utds Ighalo condemns Nigeria killings as Anthony Joshua joins fight for change',
-            imagePath:
-                'https://news.livescore.com/newsapi/04/soccer/image/zinedine-zidane-unfazed-by-critics-clasico-win-7-1gyzscvwdyo5i1q7jxncosl18d.jpg',
-          ),
-          SizedBox(height: 15),
-          LittleArticle(
-            titleColor: HexColor('EE9F73'),
-            comments: 12,
-            author: 'Mateusz Czyzewski',
-            date: '21 October',
-            title: 'Premier League',
-            description:
-                'Man Utds Ighalo condemns Nigeria killings as Anthony Joshua joins fight for change',
-            imagePath:
-                'https://news.livescore.com/newsapi/04/soccer/image/diogo-jota-get-better-liverpool-jurgen-klopp-7-1bcnjpqix5rxv18caadix5p2nj.jpg',
-          ),
-          SizedBox(height: 15),
-          LittleArticle(
-            titleColor: HexColor('56DD8C'),
-            comments: 12,
-            author: 'Mateusz Czyzewski',
-            date: '21 October',
-            title: 'Premier League',
-            description:
-                'Man Utds Ighalo condemns Nigeria killings as Anthony Joshua joins fight for change',
-            imagePath:
-                'https://news.livescore.com/newsapi/04/soccer/image/mikel-arteta-questions-decision-disallow-alexandre-lacazette-goal-arsenal-defeat-leicester-city-7-o4k7lzakrv9i1on0ogh8jolap.jpg',
-          ),
-        ],
-      ),
-    );
-  }
+  _ArticlePageState createState() => _ArticlePageState();
 }
 
-class LittleArticle extends StatelessWidget {
-  final String imagePath;
-  final String description;
-  final String date;
-  final String author;
-  final String title;
-  final int comments;
-  final Color titleColor;
-
-  LittleArticle(
-      {this.imagePath,
-      this.description,
-      this.date,
-      this.author,
-      this.comments,
-      this.title,
-      this.titleColor});
-
+class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 130,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: HexColor('DDDDDD'), blurRadius: 3, spreadRadius: 0)
-          ],
-          borderRadius: BorderRadius.circular(5)),
-      child: Row(
-        children: [
-          Container(
-            width: 110,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: NetworkImage(
-                      imagePath,
-                    )),
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    bottomLeft: Radius.circular(5))),
-          ),
-          Flexible(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Text(
-                          title,
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: titleColor,
-                        ),
-                        width: 120,
-                        height: 17,
-                      ),
-                      Text('21 October')
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(description),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.person,
-                              size: 20, color: HexColor('625F5F')),
-                          SizedBox(width: 5),
-                          Text(author)
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.messenger,
-                            size: 17,
-                            color: HexColor('625F5F'),
-                          ),
-                          SizedBox(width: 5),
-                          Text('$comments',
-                              style: GoogleFonts.nunito(fontSize: 12))
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class LargeArticle extends StatelessWidget {
-  final String imagePath;
-  final String description;
-  final String date;
-  final String period;
-
-  LargeArticle({this.imagePath, this.description, this.date, this.period});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+    return BlocBuilder<ArticleBloc, ArticleState>(
+      builder: (context, state) {
+        if (state is SuccessFetchedArticles) {
+          return Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: ListView(
+              physics: BouncingScrollPhysics(),
               children: [
-                Icon(
-                  Icons.sms,
-                  color: Colors.white,
-                  size: 18,
+                SizedBox(height: 15),
+                Text('Most popular articles',
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.bold, fontSize: 22)),
+                const SizedBox(height: 15),
+                Slider(
+                  articles: state.articles.getRange(0, 5).toList(),
                 ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.share,
-                  color: Colors.white,
-                  size: 18,
-                )
+                SizedBox(height: 15),
+                Text('The newest articles',
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.bold, fontSize: 22)),
+                SizedBox(height: 5),
+                AnotherArticles(
+                  articles: state.articles
+                      .getRange(6, state.articles.length - 1)
+                      .toList(),
+                ),
               ],
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      period,
-                      style: GoogleFonts.roboto(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: HexColor('56DD8C'),
-                    ),
-                    width: 65,
-                    height: 17,
-                  ),
-                  SizedBox(height: 7),
-                  Text(
-                    description,
-                    style:
-                        GoogleFonts.roboto(color: Colors.white, fontSize: 17),
-                  ),
-                  SizedBox(height: 7),
-                  Text(date,
-                      style: GoogleFonts.roboto(color: HexColor('D7D7D7')))
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-      height: 205,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fitHeight, image: NetworkImage(imagePath)),
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.grey),
+          );
+        } else if (state is FailureFetchedArticles) {
+          return Text('error');
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
+class AnotherArticles extends StatefulWidget {
+  final List<Article> articles;
+
+  AnotherArticles({this.articles});
+
+  @override
+  _AnotherArticlesState createState() => _AnotherArticlesState();
+}
+
+class _AnotherArticlesState extends State<AnotherArticles> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: widget.articles.map((article) {
+      return LittleArticle(
+        id: article.id,
+        title: article.title,
+        image: article.image,
+        slug: article.image,
+        date: article.date,
+      );
+    }).toList());
+  }
+}
+
+class Slider extends StatefulWidget {
+  final List<Article> articles;
+
+  Slider({this.articles});
+  @override
+  _SliderState createState() => _SliderState();
+}
+
+class _SliderState extends State<Slider> {
+  StreamController _streamController;
+  List<Widget> currentSliderPositions =
+      List.generate(5, (index) => Container(width: 10, height: 10));
+
+  @override
+  void initState() {
+    super.initState();
+    _streamController = StreamController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamController.close();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CarouselSlider(
+            items: widget.articles.map((article) {
+              return LargeArticle(
+                id: article.id,
+                title: article.title,
+                image: article.image,
+                slug: article.slug,
+                date: article.date,
+                url: article.url,
+              );
+            }).toList(),
+            options: CarouselOptions(
+                onPageChanged:
+                    (int index, CarouselPageChangedReason changeReason) {
+                  _streamController.sink.add(index);
+                },
+                viewportFraction: 1.0,
+                enlargeCenterPage: true)),
+        SizedBox(
+          height: 5,
+        ),
+        StreamBuilder(
+            initialData: 0,
+            stream: _streamController.stream,
+            builder: (context, stream) {
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List<Widget>.generate(5, (index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                          color: stream.data == index
+                              ? HexColor('6798B4')
+                              : HexColor('C4C4C4'),
+                          shape: BoxShape.circle),
+                      margin: EdgeInsets.only(top: 10, left: 2.5, right: 2.5),
+                      width: 8,
+                      height: 8,
+                    );
+                  }));
+            })
+      ],
     );
   }
 }

@@ -1,12 +1,18 @@
 part of 'form_validation_cubit.dart';
 
+enum FormValidationError { emptyFields, wrongValues, isValid }
+
 class FormValidationState extends Equatable {
   final EmailValidatorError emailValidate;
   final PasswordValidatorError passwordValidate;
   final SecondPasswordValidatorError secondPasswordValidate;
+  final FormValidationError formValidate;
 
   FormValidationState(
-      {this.emailValidate, this.passwordValidate, this.secondPasswordValidate});
+      {this.emailValidate,
+      this.passwordValidate,
+      this.secondPasswordValidate,
+      this.formValidate});
 
   get getEmailError {
     switch (emailValidate) {

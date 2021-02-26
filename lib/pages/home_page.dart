@@ -1,23 +1,17 @@
-import 'package:FootballApp/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:FootballApp/pages/bookmark_page.dart';
+import 'package:FootballApp/pages/search_page.dart';
 import 'package:FootballApp/pages/article_page.dart';
-import 'package:FootballApp/pages/login_page.dart';
 import 'package:FootballApp/pages/videos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/drawer_buttons/login_drawer_button.dart';
-import '../widgets/drawer_buttons/logout_drawer_button.dart';
+import '../widgets/drawer_widgets/drawer.dart';
 
 List<Widget> pages = [
   ArticlePage(),
   VideosPage(),
-  Container(
-    color: Colors.green,
-  ),
-  Container(
-    color: Colors.orange,
-  ),
+  BookmarkPage(),
+  SearchPage()
 ];
 
 class HomePage extends StatelessWidget {
@@ -28,33 +22,7 @@ class HomePage extends StatelessWidget {
         length: 4,
         child: Scaffold(
           backgroundColor: HexColor('FBFBFB'),
-          drawer: Drawer(
-              child: Column(
-            children: [
-              UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: Colors.grey[400]),
-                  accountName: Text('fsdfds'),
-                  accountEmail: Text('fsdfsd')),
-              Expanded(
-                  child: Align(
-                alignment: Alignment.bottomCenter,
-                child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                  builder: (context, state) {
-                    if (state is SuccesAuthentication) {
-                      return LogoutDrawerButton();
-                    } else if (state is FailureAuthentication) {
-                      return LoginDrawerButton();
-                    } else {
-                      return Container(
-                        width: 0.0,
-                        height: 0.0,
-                      );
-                    }
-                  },
-                ),
-              ))
-            ],
-          )),
+          drawer: MyDrawer(),
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: AppBar(

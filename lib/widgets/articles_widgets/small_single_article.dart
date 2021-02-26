@@ -1,133 +1,125 @@
 import 'package:FootballApp/pages/article_detail_page.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../animated_widgets/bookmark_icon.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:FootballApp/functions/calucate_article_time.dart';
 
 class LittleArticle extends StatelessWidget {
-  final String imagePath;
-  final String heroTag;
-  final String description;
-  final String date;
-  final String author;
+  final String id;
   final String title;
-  final int comments;
-  final Color titleColor;
+  final String image;
+  final String slug;
+  final String date;
 
-  LittleArticle(
-      {this.imagePath,
-      this.description,
-      this.date,
-      this.author,
-      this.comments,
-      this.title,
-      this.titleColor,
-      this.heroTag});
+  LittleArticle({this.id, this.title, this.image, this.slug, this.date});
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String> articleTime = calculateTimeOfArticle(date: date);
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ArticleDetailPage(imagePath: imagePath)));
+        Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) => ArticleDetailPage(imagePath: image)));
       },
-      child: Padding(
-        padding: EdgeInsets.all(5),
-        child: Container(
-          height: 170,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: HexColor('D9D6D6'), blurRadius: 5, spreadRadius: 0)
-              ],
-              borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            children: [
-              Container(
-                width: 110,
+      child: Container(
+        height: 170,
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: HexColor('D9D6D6'), blurRadius: 5, spreadRadius: 0)
+            ]),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 4,
+              child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fitHeight,
-                        image: NetworkImage(
-                          imagePath,
-                        )),
-                    color: Colors.green,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10))),
+                        image: CachedNetworkImageProvider(
+                          image,
+                        ))),
               ),
-              Flexible(
+            ),
+            Expanded(
+                flex: 7,
                 child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Center(
-                          child: Text(
-                            title,
-                            style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: HexColor('888888'),
-                        ),
-                        width: 120,
-                        height: 25,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        description,
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        height: 0.2,
-                        color: HexColor('C4C4C4'),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(author,
+                              TimeContainer(
+                                timeSincePublished:
+                                    articleTime['timeSincePublished'],
+                              ),
+                              SizedBox(height: 10),
+                              AutoSizeText(
+                                title,
+                                maxLines: 3,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  articleTime['date'],
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
                                       .copyWith(
                                           color: HexColor('373737'),
-                                          fontSize: 14)),
-                              Text(
-                                date,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        color: HexColor('373737'),
-                                        fontSize: 12),
-                              )
-                            ],
-                          ),
-                          BookmarkIcon(
-                            iconColor: HexColor('676767'),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
+                                          fontSize: 12),
+                                ),
+                                BookmarkIcon(
+                                  iconColor: HexColor('676767'),
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    )))
+          ],
         ),
+      ),
+    );
+  }
+}
+
+class TimeContainer extends StatelessWidget {
+  final String timeSincePublished;
+
+  TimeContainer({this.timeSincePublished});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+      decoration: BoxDecoration(
+          color: HexColor('888888'), borderRadius: BorderRadius.circular(3)),
+      child: Text(
+        timeSincePublished,
+        style: GoogleFonts.roboto(
+            color: Colors.white, fontWeight: FontWeight.w500),
+        textAlign: TextAlign.center,
       ),
     );
   }

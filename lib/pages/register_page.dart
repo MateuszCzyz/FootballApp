@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:FootballApp/blocs/register_bloc/register_bloc.dart';
 import 'package:FootballApp/cubits/form_validation/form_validation_cubit.dart';
 import 'package:FootballApp/widgets/forms_fields/email_field.dart';
@@ -8,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/others/snackbar.dart';
+import '../functions/show_snackbar.dart';
+import '../functions/get_error_message.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -107,28 +107,5 @@ class _RegisterPageState extends State<RegisterPage> {
             )),
       ),
     );
-  }
-}
-
-String codeErrorToMessage(String code) {
-  switch (code) {
-    case 'invalid-email':
-      return 'That email is not correct';
-      break;
-    case 'user-not-found':
-      return 'The user was not found';
-      break;
-    case 'unknown':
-      return 'The fields cannot be empty';
-      break;
-    case 'invalid-password':
-      return 'The password is too short';
-      break;
-    case 'email-already-in-use':
-      return 'This email already exists';
-      break;
-    default:
-      return '';
-      break;
   }
 }

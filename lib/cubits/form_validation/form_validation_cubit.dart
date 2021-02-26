@@ -4,15 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:FootballApp/models/email_validator.dart';
 import 'package:FootballApp/models/password_validator.dart';
 import 'package:formz/formz.dart';
-import 'package:dartz/dartz.dart';
 part 'form_validation_state.dart';
-
-class ErrorValidate {
-  final String message;
-  ErrorValidate({this.message});
-}
-
-class SuccesValidate {}
 
 class FormValidationCubit extends Cubit<FormValidationState> {
   String emailValue = '';
@@ -63,15 +55,20 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     secondPasswordValue = '';
   }
 
-  Map<String, dynamic> loginFormValidate() {
+  void loginFormValidate() {
     FormzStatus formStatus = Formz.validate(
         [Email.dirty(emailValue), Password.dirty(passwordValue)]);
-    return {
-      'validate': formStatus.isValid,
-      'message': (emailValue.isEmpty || passwordValue.isEmpty)
-          ? 'The forms fields cannot be empty'
-          : 'The form fields have not been properly completed'
-    };
+    if (formStatus.isValid) {
+      emit(FormValidationState(formValidate: FormValidationError.isValid));
+    } else {
+      if (emailValue.isEmpty || passwordValue.isEmpty) {
+        emit(
+            FormValidationState(formValidate: FormValidationError.emptyFields));
+      } else {
+        emit(
+            FormValidationState(formValidate: FormValidationError.wrongValues));
+      }
+    }
   }
 
   Map<String, dynamic> registerFormValidate() {
