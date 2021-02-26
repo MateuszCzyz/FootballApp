@@ -1,6 +1,7 @@
 import 'package:FootballApp/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class LogoutDrawerButton extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class LogoutDrawerButton extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(LogoutAuthentication());
           },
-          color: Colors.red[300],
+          color: HexColor('898989'),
           child: Text(
             'Sign Out',
             style: TextStyle(color: Colors.white),

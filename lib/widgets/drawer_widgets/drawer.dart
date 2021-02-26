@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import './drawer_buttons/about_drawer_button.dart';
 import './drawer_buttons/login_drawer_button.dart';
 import './drawer_buttons/logout_drawer_button.dart';
@@ -23,13 +22,19 @@ class MyDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     (state is SuccesAuthentication)
-                        ? CircleAvatar(
-                            backgroundColor: HexColor('6798B4'),
+                        ? Container(
+                            alignment: Alignment.center,
+                            width: 55,
+                            height: 55,
+                            decoration: BoxDecoration(
+                                color: HexColor('6798B4'),
+                                shape: BoxShape.circle),
                             child: Text(
                                 state.user.displayName
                                     .substring(0, 1)
                                     .toUpperCase(),
-                                style: TextStyle(color: Colors.white)))
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20)))
                         : Container(width: 0, height: 0),
                     SizedBox(height: 10),
                     (state is SuccesAuthentication)
@@ -67,7 +72,9 @@ class MyDrawer extends StatelessWidget {
                       child: Divider(),
                     ),
                     (state is SuccesAuthentication)
-                        ? SettingsDrawerButton()
+                        ? SettingsDrawerButton(
+                            user: state.user,
+                          )
                         : Container(
                             width: 0.0,
                             height: 0.0,
