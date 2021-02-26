@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:FootballApp/repositories/auth_repository.dart';
+import 'package:FootballApp/resources/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 part 'register_event.dart';
@@ -23,6 +23,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       try {
         await _authenticationRepository.createUserWithEmailAndPassoword(
             email: event.email, password: event.password);
+        _authenticationRepository.updateUserAccount(
+            displayName: event.email.split('@')[0]);
         _authenticationRepository.signOut();
         yield SuccessRegistration();
       } on FirebaseAuthException catch (e) {

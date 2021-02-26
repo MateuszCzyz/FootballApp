@@ -12,6 +12,8 @@ class AuthenticationStarted extends AuthenticationState {}
 class SuccesAuthentication extends AuthenticationState {
   final User user;
   SuccesAuthentication({this.user});
+  @override
+  List<Object> get props => [user];
 }
 
 class FailureAuthentication extends AuthenticationState {}

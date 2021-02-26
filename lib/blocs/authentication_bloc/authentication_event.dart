@@ -12,3 +12,11 @@ class CheckAuthenticationStatus extends AuthenticationEvent {}
 class LoggedInAuthentication extends AuthenticationEvent {}
 
 class LogoutAuthentication extends AuthenticationEvent {}
+
+class UpdateUserAccount extends AuthenticationEvent {
+  final String email;
+  final String displayName;
+  final String photoURL;
+
+  UpdateUserAccount({this.email, this.displayName, this.photoURL});
+}

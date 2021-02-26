@@ -1,5 +1,5 @@
 import 'package:FootballApp/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:FootballApp/repositories/auth_repository.dart';
+import 'package:FootballApp/resources/repositories/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,5 +44,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> mapSignInWithGoogleToState() async* {}
+  Stream<LoginState> mapSignInWithGoogleToState() async* {
+    try {
+      await _authenticationRepository.signInWithGoogle();
+      _authenticationBloc.add(LoggedInAuthentication());
+      yield LoginSuccess();
+    } on FirebaseAuthException catch (e) {
+      yield LoginFailure(errorMessage: 'sign-in-google-went-wrong');
+    }
+  }
 }
