@@ -30,10 +30,8 @@ class AuthenticationRepository {
       AuthCredential _authCredential = GoogleAuthProvider.credential(
           idToken: _googleSignInAuth.idToken,
           accessToken: _googleSignInAuth.accessToken);
-      return await _firebaseAuth.signInWithCredential(_authCredential);
-    } on PlatformException catch (e) {
-      print('error !!!!');
-    }
+      await _firebaseAuth.signInWithCredential(_authCredential);
+    } on PlatformException catch (e) {}
   }
 
   Future<void> createUserWithEmailAndPassoword(

@@ -1,9 +1,15 @@
+import 'package:FootballApp/functions/show_snackbar.dart';
 import 'package:FootballApp/models/second_password_validator.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:FootballApp/models/email_validator.dart';
 import 'package:FootballApp/models/password_validator.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/login_bloc/login_bloc.dart';
+import '../../blocs/register_bloc/register_bloc.dart';
 part 'form_validation_state.dart';
 
 class FormValidationCubit extends Cubit<FormValidationState> {
@@ -55,35 +61,40 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     secondPasswordValue = '';
   }
 
-  void loginFormValidate() {
-    FormzStatus formStatus = Formz.validate(
-        [Email.dirty(emailValue), Password.dirty(passwordValue)]);
+  void loginFormValidate({BuildContext context, ScaffoldState scaffold}) {
+    FormzStatus formStatus = Formz.validate([
+      Email.dirty(emailValue),
+      Password.dirty(passwordValue),
+    ]);
     if (formStatus.isValid) {
-      emit(FormValidationState(formValidate: FormValidationError.isValid));
+      BlocProvider.of<LoginBloc>(context).add(SigInWithEmailAndPassword(
+          email: emailValue, password: passwordValue));
     } else {
-      if (emailValue.isEmpty || passwordValue.isEmpty) {
-        emit(
-            FormValidationState(formValidate: FormValidationError.emptyFields));
-      } else {
-        emit(
-            FormValidationState(formValidate: FormValidationError.wrongValues));
-      }
+      scaffold.showSnackBar(getSnackBar(
+          type: SnackbarType.failure,
+          message: (emailValue.isEmpty || passwordValue.isEmpty)
+              ? 'The forms fields cannot be empty'
+              : 'The form fields have not been properly completed'));
     }
   }
 
-  Map<String, dynamic> registerFormValidate() {
+  void registerFormValidate({BuildContext context, ScaffoldState scaffold}) {
     FormzStatus formStatus = Formz.validate([
       Email.dirty(emailValue),
       Password.dirty(passwordValue),
       SecondPassword.dirty(secondPasswordValue)
     ]);
-    return {
-      'validate': formStatus.isValid,
-      'message': (emailValue.isEmpty ||
-              passwordValue.isEmpty ||
-              secondPasswordValue.isEmpty)
-          ? 'The forms fields cannot be empty'
-          : 'The form fields have not been properly completed'
-    };
+    if (formStatus.isValid) {
+      BlocProvider.of<RegisterBloc>(context)
+          .add(CreateNewAccount(email: emailValue, password: passwordValue));
+    } else {
+      scaffold.showSnackBar(getSnackBar(
+          type: SnackbarType.failure,
+          message: (emailValue.isEmpty ||
+                  passwordValue.isEmpty ||
+                  secondPasswordValue.isEmpty)
+              ? 'The forms fields cannot be empty'
+              : 'The form fields have not been properly completed'));
+    }
   }
 }

@@ -5,12 +5,11 @@ import '../api_providers/article_provider.dart';
 
 class ArticleRepository {
   ArticleApiProvider _articleProvider = ArticleApiProvider();
-  List<Article> _articles = [];
-  int _page = 0;
 
-  Future<void> fetchArticleData() async {
+  Future<List<Article>> fetchArticleData({int page}) async {
+    List<Article> _articles = [];
     Response<Map> articleList =
-        await _articleProvider.fetchArticleList(page: _page++);
+        await _articleProvider.fetchArticleList(page: page);
     for (Map data in articleList.data['data']) {
       _articles.add(Article(
           id: data['id'],
@@ -20,6 +19,7 @@ class ArticleRepository {
           slug: data['slug'],
           url: data['url']));
     }
+    return _articles;
   }
 
   Future<ArticleDetail> fetchArticleDetail({String slug}) async {
@@ -35,6 +35,4 @@ class ArticleRepository {
         content: data['article'],
         url: data['url']);
   }
-
-  List<Article> get getArticles => _articles;
 }

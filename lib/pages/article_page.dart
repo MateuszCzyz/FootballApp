@@ -14,39 +14,53 @@ class ArticlePage extends StatefulWidget {
   _ArticlePageState createState() => _ArticlePageState();
 }
 
-class _ArticlePageState extends State<ArticlePage> {
+class _ArticlePageState extends State<ArticlePage>
+    with AutomaticKeepAliveClientMixin<ArticlePage> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          BlocProvider.of<ArticleBloc>(context).add(FetchNextPage());
+        }
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ArticleBloc, ArticleState>(
+      buildWhen: (previousState, state) {
+        if (state is SuccessFetchedFirstPage ||
+            state is FailureFetchedFirstPage) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       builder: (context, state) {
-        if (state is SuccessFetchedArticles) {
+        if (state is SuccessFetchedFirstPage) {
           return Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: ListView(
+              controller: _scrollController,
               physics: BouncingScrollPhysics(),
               children: [
-                SizedBox(height: 15),
-                Text('Most popular articles',
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.bold, fontSize: 22)),
-                const SizedBox(height: 15),
                 Slider(
                   articles: state.articles.getRange(0, 5).toList(),
                 ),
-                SizedBox(height: 15),
-                Text('The newest articles',
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.bold, fontSize: 22)),
-                SizedBox(height: 5),
                 AnotherArticles(
-                  articles: state.articles
+                  initialArticles: state.articles
                       .getRange(6, state.articles.length - 1)
                       .toList(),
                 ),
               ],
             ),
           );
-        } else if (state is FailureFetchedArticles) {
+        } else if (state is FailureFetchedFirstPage) {
           return Text('error');
         } else {
           return Center(
@@ -56,30 +70,74 @@ class _ArticlePageState extends State<ArticlePage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }
 
 class AnotherArticles extends StatefulWidget {
-  final List<Article> articles;
+  final List<Article> initialArticles;
 
-  AnotherArticles({this.articles});
-
+  AnotherArticles({this.initialArticles});
   @override
   _AnotherArticlesState createState() => _AnotherArticlesState();
 }
 
 class _AnotherArticlesState extends State<AnotherArticles> {
+  List<Article> _articles;
+
+  @override
+  void initState() {
+    super.initState();
+    _articles = List.from(widget.initialArticles);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: widget.articles.map((article) {
-      return LittleArticle(
-        id: article.id,
-        title: article.title,
-        image: article.image,
-        slug: article.image,
-        date: article.date,
-      );
-    }).toList());
+    return BlocConsumer<ArticleBloc, ArticleState>(
+      listener: (context, state) {
+        if (state is SuccessFetchedNextPage) {
+          _articles.addAll(state.articles);
+        }
+      },
+      builder: (context, state) {
+        return ListView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemBuilder: (context, index) {
+              if (index <= _articles.length) {
+                if (index == _articles.length) {
+                  return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  Article article = _articles[index];
+                  return LittleArticle(
+                    id: article.id,
+                    title: article.title,
+                    image: article.image,
+                    slug: article.image,
+                    date: article.date,
+                  );
+                }
+              }
+            });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 
@@ -111,7 +169,13 @@ class _SliderState extends State<Slider> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 15),
+        Text('Most popular articles',
+            style:
+                GoogleFonts.nunito(fontWeight: FontWeight.bold, fontSize: 22)),
+        SizedBox(height: 15),
         CarouselSlider(
             items: widget.articles.map((article) {
               return LargeArticle(
@@ -151,7 +215,12 @@ class _SliderState extends State<Slider> {
                       height: 8,
                     );
                   }));
-            })
+            }),
+        SizedBox(height: 15),
+        Text('The newest articles',
+            style:
+                GoogleFonts.nunito(fontWeight: FontWeight.bold, fontSize: 22)),
+        SizedBox(height: 5),
       ],
     );
   }

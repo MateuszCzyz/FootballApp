@@ -18,12 +18,11 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<FormValidationCubit>(
-      create: (context) => FormValidationCubit(),
-      child: SafeArea(
-        child: Scaffold(
-            backgroundColor: HexColor('FBFBFB'),
-            body: BlocListener<RegisterBloc, RegisterState>(
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: HexColor('FBFBFB'),
+          body: SingleChildScrollView(
+            child: BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is FailureRegistration) {
                   Scaffold.of(context).removeCurrentSnackBar();
@@ -58,7 +57,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             )
                           ],
                         ),
-                        height: 150,
                         decoration: BoxDecoration(
                             color: HexColor('6798B4'),
                             borderRadius: BorderRadius.only(
@@ -78,20 +76,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.circular(3)),
                           onPressed: () {
                             FocusScope.of(context).requestFocus(FocusNode());
-                            FormValidationCubit formCubit =
-                                BlocProvider.of<FormValidationCubit>(context);
-                            Map<String, dynamic> formStatus =
-                                formCubit.registerFormValidate();
-                            if (formStatus['validate']) {
-                              BlocProvider.of<RegisterBloc>(context).add(
-                                  CreateNewAccount(
-                                      email: formCubit.emailValue,
-                                      password: formCubit.passwordValue));
-                            } else {
-                              Scaffold.of(context).showSnackBar(getSnackBar(
-                                  type: SnackbarType.failure,
-                                  message: formStatus['message']));
-                            }
+                            BlocProvider.of<FormValidationCubit>(context)
+                                .registerFormValidate(
+                                    context: context,
+                                    scaffold: Scaffold.of(context));
                           },
                           color: HexColor('6798B4'),
                           child: Text(
@@ -104,8 +92,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 },
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 }

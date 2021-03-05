@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ArticleBloc>(
             create: (context) =>
                 ArticleBloc(articleRepository: articleRepository)
-                  ..add(FetchArticleData()))
+                  ..add(FetchFirstPage()))
       ], child: AppView()),
     );
   }

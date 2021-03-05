@@ -3,6 +3,7 @@ import 'package:FootballApp/resources/repositories/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -39,7 +40,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginSuccess();
       _authenticationBloc.add(LoggedInAuthentication());
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       yield LoginFailure(errorMessage: e.code);
     }
   }
@@ -49,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _authenticationRepository.signInWithGoogle();
       _authenticationBloc.add(LoggedInAuthentication());
       yield LoginSuccess();
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       yield LoginFailure(errorMessage: 'sign-in-google-went-wrong');
     }
   }

@@ -1,11 +1,13 @@
-class ArticleDetail {
-  String id;
-  String title;
-  String image;
-  String author;
-  String date;
-  String url;
-  List<String> content;
+import 'package:equatable/equatable.dart';
+
+class ArticleDetail extends Equatable {
+  final String id;
+  final String title;
+  final String image;
+  final String author;
+  final String date;
+  final String url;
+  final List<String> content;
 
   ArticleDetail(
       {this.id,
@@ -15,4 +17,7 @@ class ArticleDetail {
       this.author,
       this.content,
       this.url});
+
+  @override
+  List<Object> get props => [id, title, image, author, date, url];
 }

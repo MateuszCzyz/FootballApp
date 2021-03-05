@@ -9,12 +9,22 @@ abstract class ArticleState extends Equatable {
 
 class ArticleInitial extends ArticleState {}
 
-class SuccessFetchedArticles extends ArticleState {
+class SuccessFetchedNextPage extends ArticleState {
   final List<Article> articles;
 
-  SuccessFetchedArticles({this.articles});
+  SuccessFetchedNextPage({this.articles});
   @override
   List<Object> get props => [articles];
 }
 
-class FailureFetchedArticles extends ArticleState {}
+class SuccessFetchedFirstPage extends ArticleState {
+  final List<Article> articles;
+
+  SuccessFetchedFirstPage({this.articles});
+  @override
+  List<Object> get props => [articles];
+}
+
+class FailureFetchedNextPage extends ArticleState {}
+
+class FailureFetchedFirstPage extends ArticleState {}

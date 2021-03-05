@@ -21,7 +21,7 @@ class SecondPassword extends FormzInput<String, SecondPasswordValidatorError> {
   SecondPasswordValidatorError validator(String value) {
     if (value.isNotEmpty) {
       if (_firstPassword.valid) {
-        if (value.length > 6) {
+        if (value.length >= 6) {
           if (value == _firstPassword.value) {
             return null;
           } else {
