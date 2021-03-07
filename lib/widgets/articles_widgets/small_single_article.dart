@@ -2,28 +2,39 @@ import 'package:FootballApp/pages/article_detail_page.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../animated_widgets/bookmark_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:FootballApp/functions/calucate_article_time.dart';
+import '../../blocs/article_detail_bloc/article_detail_bloc.dart';
 
 class LittleArticle extends StatelessWidget {
   final String id;
   final String title;
+  final String url;
   final String image;
   final String slug;
   final String date;
 
-  LittleArticle({this.id, this.title, this.image, this.slug, this.date});
+  LittleArticle(
+      {this.id, this.title, this.image, this.slug, this.date, this.url});
 
   @override
   Widget build(BuildContext context) {
     Map<String, String> articleTime = calculateTimeOfArticle(date: date);
     return InkWell(
       onTap: () {
+        BlocProvider.of<ArticleDetailBloc>(context)
+            .add(FetchDetail(slug: slug));
         Navigator.of(context).push(CupertinoPageRoute(
-            builder: (context) => ArticleDetailPage(imagePath: image)));
+            builder: (context) => ArticleDetailPage(
+                  id: id,
+                  imagePath: image,
+                  shareURL: url,
+                  title: title,
+                )));
       },
       child: Container(
         height: 170,

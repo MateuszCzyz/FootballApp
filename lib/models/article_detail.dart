@@ -7,7 +7,7 @@ class ArticleDetail extends Equatable {
   final String author;
   final String date;
   final String url;
-  final List<String> content;
+  final List<dynamic> content;
 
   ArticleDetail(
       {this.id,

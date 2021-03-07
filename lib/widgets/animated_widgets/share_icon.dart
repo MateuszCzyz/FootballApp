@@ -4,8 +4,9 @@ import 'package:share/share.dart';
 class ShareIcon extends StatefulWidget {
   final String shareTitle;
   final String shareURL;
+  final Color iconColor;
 
-  ShareIcon({this.shareURL, this.shareTitle});
+  ShareIcon({this.shareURL, this.shareTitle, this.iconColor});
   @override
   _ShareIconState createState() => _ShareIconState();
 }
@@ -51,7 +52,7 @@ class _ShareIconState extends State<ShareIcon>
               child: InkWell(
                 child: Icon(
                   Icons.share,
-                  color: Colors.white,
+                  color: widget.iconColor,
                   size: 20,
                 ),
                 onTap: () async {

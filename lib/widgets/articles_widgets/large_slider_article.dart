@@ -33,6 +33,7 @@ class LargeArticle extends StatelessWidget {
                   ShareIcon(
                     shareTitle: title,
                     shareURL: url,
+                    iconColor: Colors.white,
                   ),
                   SizedBox(width: 5),
                   BookmarkIcon(

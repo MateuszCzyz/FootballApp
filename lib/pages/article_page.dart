@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:FootballApp/blocs/articles_bloc/article_bloc.dart';
+import 'package:FootballApp/blocs/article_list_bloc/article_list_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,14 +25,14 @@ class _ArticlePageState extends State<ArticlePage>
       ..addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          BlocProvider.of<ArticleBloc>(context).add(FetchNextPage());
+          BlocProvider.of<ArticleListBloc>(context).add(FetchNextPage());
         }
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ArticleBloc, ArticleState>(
+    return BlocBuilder<ArticleListBloc, ArticleListState>(
       buildWhen: (previousState, state) {
         if (state is SuccessFetchedFirstPage ||
             state is FailureFetchedFirstPage) {
@@ -100,7 +100,7 @@ class _AnotherArticlesState extends State<AnotherArticles> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ArticleBloc, ArticleState>(
+    return BlocConsumer<ArticleListBloc, ArticleListState>(
       listener: (context, state) {
         if (state is SuccessFetchedNextPage) {
           _articles.addAll(state.articles);
@@ -123,9 +123,10 @@ class _AnotherArticlesState extends State<AnotherArticles> {
                   Article article = _articles[index];
                   return LittleArticle(
                     id: article.id,
+                    url: article.url,
                     title: article.title,
                     image: article.image,
-                    slug: article.image,
+                    slug: article.slug,
                     date: article.date,
                   );
                 }

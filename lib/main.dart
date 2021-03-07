@@ -1,9 +1,8 @@
-import 'package:FootballApp/blocs/articles_bloc/article_bloc.dart';
+import 'package:FootballApp/blocs/article_list_bloc/article_list_bloc.dart';
 import 'package:FootballApp/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:FootballApp/blocs/login_bloc/login_bloc.dart';
 import 'package:FootballApp/blocs/register_bloc/register_bloc.dart';
 import 'package:FootballApp/cubits/form_validation/form_validation_cubit.dart';
-import 'package:FootballApp/models/article.dart';
 import 'package:FootballApp/resources/repositories/article_repository.dart';
 import 'package:FootballApp/resources/repositories/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,9 +45,9 @@ class MyApp extends StatelessWidget {
                 RegisterBloc(authenticationRepository: authRespository)),
         BlocProvider<FormValidationCubit>(
             create: (context) => FormValidationCubit()),
-        BlocProvider<ArticleBloc>(
+        BlocProvider<ArticleListBloc>(
             create: (context) =>
-                ArticleBloc(articleRepository: articleRepository)
+                ArticleListBloc(articleRepository: articleRepository)
                   ..add(FetchFirstPage()))
       ], child: AppView()),
     );
