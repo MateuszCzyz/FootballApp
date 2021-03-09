@@ -2,6 +2,7 @@ import 'package:FootballApp/models/article_detail.dart';
 import 'package:dio/dio.dart';
 import 'package:FootballApp/models/article.dart';
 import '../api_providers/article_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ArticleRepository {
   ArticleApiProvider _articleProvider = ArticleApiProvider();
@@ -27,12 +28,15 @@ class ArticleRepository {
         await _articleProvider.fetchArticleDetail(slug: slug);
     final data = articleDetail.data['data'];
     return ArticleDetail(
-        id: data['id'],
-        title: data['title'],
-        date: data['published'],
-        image: data['image']['url'],
-        author: data['author'],
-        content: data['article'],
-        url: data['url']);
+      author: data['author'],
+      content: data['article'],
+    );
+  }
+
+  Stream<QuerySnapshot> getCommentsSnapshot({String articleID}) {
+    return FirebaseFirestore.instance
+        .collection('comments')
+        .where('id_article', isEqualTo: articleID)
+        .snapshots();
   }
 }

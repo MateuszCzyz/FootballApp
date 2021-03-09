@@ -30,26 +30,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthenticationBloc>(
-      create: (context) =>
-          AuthenticationBloc(authenticationRepository: authRespository)
-            ..add(CheckAuthenticationStatus()),
-      child: MultiBlocProvider(providers: [
-        BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(
-              authenticationRepository: authRespository,
-              authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
-        ),
-        BlocProvider<RegisterBloc>(
-            create: (context) =>
-                RegisterBloc(authenticationRepository: authRespository)),
-        BlocProvider<FormValidationCubit>(
-            create: (context) => FormValidationCubit()),
-        BlocProvider<ArticleListBloc>(
-            create: (context) =>
-                ArticleListBloc(articleRepository: articleRepository)
-                  ..add(FetchFirstPage()))
-      ], child: AppView()),
+    return RepositoryProvider.value(
+      value: articleRepository,
+      child: BlocProvider<AuthenticationBloc>(
+        create: (context) =>
+            AuthenticationBloc(authenticationRepository: authRespository)
+              ..add(CheckAuthenticationStatus()),
+        child: MultiBlocProvider(providers: [
+          BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(
+                authenticationRepository: authRespository,
+                authenticationBloc:
+                    BlocProvider.of<AuthenticationBloc>(context)),
+          ),
+          BlocProvider<RegisterBloc>(
+              create: (context) =>
+                  RegisterBloc(authenticationRepository: authRespository)),
+          BlocProvider<FormValidationCubit>(
+              create: (context) => FormValidationCubit()),
+          BlocProvider<ArticleListBloc>(
+              create: (context) =>
+                  ArticleListBloc(articleRepository: articleRepository)
+                    ..add(FetchFirstPage()))
+        ], child: AppView()),
+      ),
     );
   }
 }

@@ -11,7 +11,9 @@ class ArticleDetailInitial extends ArticleDetailState {}
 
 class SuccessFetchedDetail extends ArticleDetailState {
   final ArticleDetail articleDetail;
-  SuccessFetchedDetail({this.articleDetail});
+  final Stream<QuerySnapshot> commentsSnapshot;
+
+  SuccessFetchedDetail({this.articleDetail, this.commentsSnapshot});
 }
 
 class FailureFetchedDetail extends ArticleDetailState {}

@@ -1,5 +1,4 @@
 import 'package:FootballApp/pages/bookmark_page.dart';
-import 'package:FootballApp/pages/search_page.dart';
 import 'package:FootballApp/pages/article_page.dart';
 import 'package:FootballApp/pages/videos_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ List<Widget> pages = [
   ArticlePage(),
   VideosPage(),
   BookmarkPage(),
-  SearchPage()
 ];
 
 class HomePage extends StatelessWidget {
@@ -19,7 +17,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 4,
+        length: 3,
         child: Scaffold(
           backgroundColor: HexColor('FBFBFB'),
           drawer: MyDrawer(),
@@ -55,9 +53,6 @@ class HomePage extends StatelessWidget {
               Tab(
                 icon: Icon(Icons.bookmark, color: HexColor('888686')),
               ),
-              Tab(
-                icon: Icon(Icons.search, color: HexColor('888686')),
-              )
             ],
           ),
         ),

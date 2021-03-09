@@ -8,6 +8,8 @@ abstract class ArticleDetailEvent extends Equatable {
 }
 
 class FetchDetail extends ArticleDetailEvent {
+  final String articleID;
   final String slug;
-  FetchDetail({this.slug});
+
+  FetchDetail({this.slug, this.articleID});
 }

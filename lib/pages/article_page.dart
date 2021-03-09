@@ -3,11 +3,11 @@ import 'package:FootballApp/blocs/article_list_bloc/article_list_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:FootballApp/models/article.dart';
 import '../widgets/articles_widgets/large_slider_article.dart';
 import '../widgets/articles_widgets/small_single_article.dart';
-import 'package:FootballApp/models/article.dart';
+import '../widgets/others/header_widget.dart';
 
 class ArticlePage extends StatefulWidget {
   @override
@@ -172,11 +172,7 @@ class _SliderState extends State<Slider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 15),
-        Text('Most popular articles',
-            style:
-                GoogleFonts.nunito(fontWeight: FontWeight.bold, fontSize: 22)),
-        SizedBox(height: 15),
+        Header(label: 'Most popular articles'),
         CarouselSlider(
             items: widget.articles.map((article) {
               return LargeArticle(
@@ -217,11 +213,7 @@ class _SliderState extends State<Slider> {
                     );
                   }));
             }),
-        SizedBox(height: 15),
-        Text('The newest articles',
-            style:
-                GoogleFonts.nunito(fontWeight: FontWeight.bold, fontSize: 22)),
-        SizedBox(height: 5),
+        Header(label: 'The newest articles')
       ],
     );
   }

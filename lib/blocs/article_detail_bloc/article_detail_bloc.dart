@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import '../../resources/repositories/article_repository.dart';
 import '../../models/article_detail.dart';
@@ -25,11 +26,16 @@ class ArticleDetailBloc extends Bloc<ArticleDetailEvent, ArticleDetailState> {
 }
 
 Stream<ArticleDetailState> fetchDetailToState(
-    {ArticleRepository articleRepository, String slug}) async* {
+    {ArticleRepository articleRepository,
+    String slug,
+    String articleID}) async* {
   try {
     ArticleDetail articleDetail =
         await articleRepository.fetchArticleDetail(slug: slug);
-    yield SuccessFetchedDetail(articleDetail: articleDetail);
+    Stream<QuerySnapshot> commentsSnapshot =
+        articleRepository.getCommentsSnapshot(articleID: articleID);
+    yield SuccessFetchedDetail(
+        articleDetail: articleDetail, commentsSnapshot: commentsSnapshot);
   } catch (e) {
     yield FailureFetchedDetail();
   }

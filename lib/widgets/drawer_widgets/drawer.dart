@@ -39,7 +39,7 @@ class MyDrawer extends StatelessWidget {
                     SizedBox(height: 10),
                     (state is SuccesAuthentication)
                         ? Text(
-                            'Name: ' + state.user.displayName,
+                            state.user.displayName,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -48,7 +48,7 @@ class MyDrawer extends StatelessWidget {
                         : Text(''),
                     (state is SuccesAuthentication)
                         ? Text(
-                            'Email: ' + state.user.email,
+                            state.user.email,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1

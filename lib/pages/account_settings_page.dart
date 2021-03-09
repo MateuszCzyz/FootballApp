@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../widgets/others/header_widget.dart';
 
 class AccountSettingsPage extends StatelessWidget {
   final User user;
@@ -28,10 +29,7 @@ class AccountSettingsPage extends StatelessWidget {
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 children: [
-                  Text('Account settings',
-                      style: GoogleFonts.nunito(
-                          fontWeight: FontWeight.bold, fontSize: 22)),
-                  SizedBox(height: 20),
+                  Header(label: 'Account settings'),
                   SingleSetting(
                     icon: Icons.person,
                     label: 'Change account nickname',
