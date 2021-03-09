@@ -3,10 +3,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../animated_widgets/bookmark_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:FootballApp/functions/calucate_article_time.dart';
+import '../animated_widgets/bookmark_icon.dart';
+import '../others/time_widget.dart';
 
 class LittleArticle extends StatelessWidget {
   final String id;
@@ -69,9 +69,10 @@ class LittleArticle extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TimeContainer(
+                              TimeWidget(
                                 timeSincePublished:
                                     articleTime['timeSincePublished'],
+                                color: '888888',
                               ),
                               SizedBox(height: 10),
                               AutoSizeText(
@@ -108,27 +109,6 @@ class LittleArticle extends StatelessWidget {
                     )))
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TimeContainer extends StatelessWidget {
-  final String timeSincePublished;
-
-  TimeContainer({this.timeSincePublished});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-      decoration: BoxDecoration(
-          color: HexColor('888888'), borderRadius: BorderRadius.circular(3)),
-      child: Text(
-        timeSincePublished,
-        style: GoogleFonts.roboto(
-            color: Colors.white, fontWeight: FontWeight.w500),
-        textAlign: TextAlign.center,
       ),
     );
   }

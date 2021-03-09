@@ -2,9 +2,11 @@ import 'package:FootballApp/blocs/article_list_bloc/article_list_bloc.dart';
 import 'package:FootballApp/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:FootballApp/blocs/login_bloc/login_bloc.dart';
 import 'package:FootballApp/blocs/register_bloc/register_bloc.dart';
+import 'package:FootballApp/blocs/video_bloc/video_bloc.dart';
 import 'package:FootballApp/cubits/form_validation/form_validation_cubit.dart';
 import 'package:FootballApp/resources/repositories/article_repository.dart';
 import 'package:FootballApp/resources/repositories/auth_repository.dart';
+import 'package:FootballApp/resources/repositories/video_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +28,14 @@ class MyApp extends StatelessWidget {
       firebaseAuth: FirebaseAuth.instance,
       firestore: FirebaseFirestore.instance,
       googleSignIn: GoogleSignIn());
-  final ArticleRepository articleRepository = ArticleRepository();
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: articleRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => ArticleRepository()),
+        RepositoryProvider(create: (context) => VideoRepository())
+      ],
       child: BlocProvider<AuthenticationBloc>(
         create: (context) =>
             AuthenticationBloc(authenticationRepository: authRespository)
@@ -49,9 +53,15 @@ class MyApp extends StatelessWidget {
           BlocProvider<FormValidationCubit>(
               create: (context) => FormValidationCubit()),
           BlocProvider<ArticleListBloc>(
-              create: (context) =>
-                  ArticleListBloc(articleRepository: articleRepository)
-                    ..add(FetchFirstPage()))
+              create: (context) => ArticleListBloc(
+                  articleRepository:
+                      RepositoryProvider.of<ArticleRepository>(context))
+                ..add(FetchFirstPage())),
+          BlocProvider(
+              create: (context) => VideoBloc(
+                  videoRepository:
+                      RepositoryProvider.of<VideoRepository>(context))
+                ..add(FetchVideos()))
         ], child: AppView()),
       ),
     );

@@ -9,7 +9,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+      padding: EdgeInsets.fromLTRB(0, 15, 10, 0),
       child: Text(label,
           style: GoogleFonts.nunito(fontWeight: FontWeight.bold, fontSize: 22)),
     );

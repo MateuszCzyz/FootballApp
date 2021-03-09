@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/drawer_widgets/drawer.dart';
 
 List<Widget> pages = [
-  ArticlePage(),
+  //ArticlePage(),
   VideosPage(),
   BookmarkPage(),
 ];
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           backgroundColor: HexColor('FBFBFB'),
           drawer: MyDrawer(),
@@ -40,12 +40,14 @@ class HomePage extends StatelessWidget {
             labelColor: Colors.red,
             indicatorColor: HexColor('6798B4'),
             tabs: [
+              /* 
               Tab(
                 icon: Icon(
                   Icons.article,
                   color: HexColor('888686'),
                 ),
               ),
+              */
               Tab(
                 icon: Icon(Icons.play_circle_fill_rounded,
                     color: HexColor('888686')),
