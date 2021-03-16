@@ -3,10 +3,11 @@ import 'package:FootballApp/functions/calucate_article_time.dart';
 import 'package:FootballApp/widgets/others/time_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/others/header_widget.dart';
-import '../widgets/animated_widgets/bookmark_icon.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:FootballApp/widgets/animated_widgets/play_video_icon.dart';
+import '../widgets/others/header_widget.dart';
+import '../widgets/animated_widgets/bookmark_icon.dart';
 
 class VideosPage extends StatelessWidget {
   @override
@@ -28,8 +29,8 @@ class VideosPage extends StatelessWidget {
                     physics: ScrollPhysics(),
                     itemCount: state.videos.length,
                     itemBuilder: (context, index) {
-                      Map<String, String> videoTime = calculateTimeOfArticle(
-                          date: state.videos[index].date);
+                      Map<String, String> videoTime =
+                          calculateTime(date: state.videos[index].date);
                       return SingleVideo(
                         title: state.videos[index].title,
                         competition: state.videos[index].competition,
@@ -74,48 +75,54 @@ class SingleVideo extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Container(
-          padding: EdgeInsets.all(5),
-          height: 210,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.grey,
-              boxShadow: [
-                BoxShadow(
-                    color: HexColor('D9D6D6'), blurRadius: 10, spreadRadius: 0)
-              ],
-              image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: CachedNetworkImageProvider(
-                    image,
-                  ))),
-        ),
+            height: 200,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.grey,
+                boxShadow: [
+                  BoxShadow(
+                      color: HexColor('D9D6D6'),
+                      blurRadius: 10,
+                      spreadRadius: 0)
+                ],
+                image: DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: CachedNetworkImageProvider(
+                      image,
+                    ))),
+            child: Center(
+              child: PlayVideoIcon(),
+            )),
         SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
+        Padding(
+          padding: EdgeInsets.only(left: 5, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: 15, fontWeight: FontWeight.w600)),
+                  Text(
+                    competition,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(fontSize: 15, fontWeight: FontWeight.w600)),
-                Text(
-                  competition,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.black45, fontSize: 12),
-                ),
-              ],
-            ),
-            BookmarkIcon(
-              iconColor: Colors.grey.shade600,
-            )
-          ],
+                        .copyWith(color: Colors.black45, fontSize: 12),
+                  ),
+                ],
+              ),
+              BookmarkIcon(
+                iconColor: Colors.grey.shade600,
+              )
+            ],
+          ),
         ),
         SizedBox(height: 10),
         Divider()

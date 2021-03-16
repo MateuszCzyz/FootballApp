@@ -21,7 +21,7 @@ class LittleArticle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> articleTime = calculateTimeOfArticle(date: date);
+    Map<String, String> articleTime = calculateTime(date: date);
     return InkWell(
       onTap: () {
         Navigator.of(context).push(CupertinoPageRoute(
